@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Miro</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-line"></div>
+        <div class="navbar-content">
+            <div class="nav-left">
+                <button class="dash-hamburger" id="sidebar-toggle" aria-label="Toggle sidebar">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h14M4 11h14M4 16h14"/></svg>
+                </button>
+                <a href="index.html" class="nav-logo">
+                    <img class="nav-logo-img" src="assets/logo.png" alt="Miro logo">
+                    <span class="nav-logo-text">miro</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="docs.html" class="nav-link">Docs</a>
+                <span class="nav-user-email" id="nav-user-email"></span>
+                <button class="nav-cta-btn--outline" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="dashboard-page">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar" id="dash-sidebar">
+            <nav>
+                <a href="#overview" class="dash-sidebar-link active" data-page="overview">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="7" height="7" rx="2"/><rect x="11" y="2" width="7" height="7" rx="2"/><rect x="2" y="11" width="7" height="7" rx="2"/><rect x="11" y="11" width="7" height="7" rx="2"/>
+                    </svg>
+                    Overview
+                </a>
+                <a href="#checkouts" class="dash-sidebar-link" data-page="checkouts">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/><path d="M1 1h3l1.68 8.39a2 2 0 002 1.61h7.72a2 2 0 002-1.61L19 5H5"/>
+                    </svg>
+                    Checkouts
+                </a>
+                <a href="#api-keys" class="dash-sidebar-link" data-page="api-keys">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13.5 3.5a3.5 3.5 0 010 5L7 15l-3 1 1-3 6.5-6.5a3.5 3.5 0 015 0z"/>
+                    </svg>
+                    API Keys
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Sidebar overlay for mobile -->
+        <div class="dash-sidebar-overlay" id="sidebar-overlay"></div>
+
+        <div class="dash-main">
+
+            <!-- === PAGE: Overview === -->
+            <div class="dash-page active" id="page-overview">
+
+            <!-- Header with date filter -->
+            <div class="dash-header">
+                <h1>Dashboard</h1>
+                <div class="dash-date-filter">
+                    <div class="dash-filter-presets">
+                        <button class="dash-preset active" data-range="7">7 days</button>
+                        <button class="dash-preset" data-range="30">30 days</button>
+                        <button class="dash-preset" data-range="90">90 days</button>
+                        <button class="dash-preset" data-range="all">All time</button>
+                    </div>
+                    <div class="dash-filter-divider"></div>
+                    <button class="dash-date-trigger" id="date-trigger">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="12" height="11" rx="2"/>
+                            <path d="M5 1v3M11 1v3M2 7h12"/>
+                        </svg>
+                        <span id="date-trigger-label">Mar 20 – Mar 27</span>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 4.5l3 3 3-3"/>
+                        </svg>
+                    </button>
+                    <!-- Hidden inputs to store values -->
+                    <input type="hidden" id="stats-from">
+                    <input type="hidden" id="stats-to">
+                    <!-- Custom calendar dropdown -->
+                    <div class="cal-dropdown" id="cal-dropdown">
+                        <div class="cal-range-header">
+                            <div class="cal-range-col">
+                                <span class="cal-range-label">From</span>
+                                <span class="cal-range-value" id="cal-from-display">--</span>
+                            </div>
+                            <svg class="cal-range-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--on-surface-variant)" stroke-width="1.5" stroke-linecap="round"><path d="M4 8h8M9 5l3 3-3 3"/></svg>
+                            <div class="cal-range-col">
+                                <span class="cal-range-label">To</span>
+                                <span class="cal-range-value" id="cal-to-display">--</span>
+                            </div>
+                        </div>
+                        <div class="cal-nav">
+                            <button class="cal-nav-btn" id="cal-prev">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8.5 3L5 7l3.5 4"/></svg>
+                            </button>
+                            <span class="cal-month-label" id="cal-month-label">March 2026</span>
+                            <button class="cal-nav-btn" id="cal-next">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5.5 3L9 7l-3.5 4"/></svg>
+                            </button>
+                        </div>
+                        <div class="cal-weekdays">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div class="cal-grid" id="cal-grid"></div>
+                        <div class="cal-footer">
+                            <button class="cal-footer-btn" id="cal-clear">Clear</button>
+                            <button class="cal-footer-btn cal-footer-btn--primary" id="cal-apply">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="dash-stats-grid">
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Total Checkouts</span>
+                    <span class="dash-stat-value" id="stat-total-checkouts">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Pending</span>
+                    <span class="dash-stat-value" id="stat-pending">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Recovery Attempted</span>
+                    <span class="dash-stat-value" id="stat-recovery-attempted">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Recovered</span>
+                    <span class="dash-stat-value" id="stat-recovered">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Converted</span>
+                    <span class="dash-stat-value" id="stat-converted">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Total Cart Value</span>
+                    <span class="dash-stat-value" id="stat-total-value">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Pending Revenue</span>
+                    <span class="dash-stat-value" id="stat-pending-revenue">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Recovered Revenue</span>
+                    <span class="dash-stat-value" id="stat-recovered-revenue">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Conversion Rate</span>
+                    <span class="dash-stat-value" id="stat-conversion-rate">-</span>
+                </div>
+                <div class="dash-stat-card">
+                    <span class="dash-stat-label">Recovery Success</span>
+                    <span class="dash-stat-value" id="stat-recovery-rate">-</span>
+                </div>
+            </div>
+
+            <!-- Recovery Chart -->
+            <div class="dash-section">
+                <div class="dash-section-header">
+                    <h2>Recovery Trend</h2>
+                </div>
+                <div class="dash-chart-card" id="chart-card">
+                    <div class="dash-chart-empty" id="chart-empty">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <rect x="8" y="40" width="8" height="16" rx="2" fill="var(--primary-fixed-dim)" opacity="0.3"/>
+                            <rect x="20" y="32" width="8" height="24" rx="2" fill="var(--primary-fixed-dim)" opacity="0.5"/>
+                            <rect x="32" y="24" width="8" height="32" rx="2" fill="var(--primary-fixed-dim)" opacity="0.7"/>
+                            <rect x="44" y="16" width="8" height="40" rx="2" fill="var(--primary-container)"/>
+                        </svg>
+                        <p class="dash-empty-title">Your recovery story starts here</p>
+                        <p class="dash-empty-sub">Once abandoned checkouts start flowing in, this chart will light up with your recovery wins.</p>
+                    </div>
+                    <canvas id="recovery-chart" width="800" height="240" style="display:none;"></canvas>
+                    <div class="dash-chart-legend" id="chart-legend" style="display:none;">
+                        <span class="dash-legend-item"><span class="dash-legend-dot dash-legend-dot--total"></span> Total checkouts</span>
+                        <span class="dash-legend-item"><span class="dash-legend-dot dash-legend-dot--recovered"></span> Recovered</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recovery Channels -->
+            <div class="dash-section">
+                <div class="dash-section-header">
+                    <h2>Recovery Channels</h2>
+                </div>
+                <div class="dash-channels">
+                    <div class="dash-channel-card">
+                        <div class="dash-channel-icon dash-channel-icon--text">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="dash-channel-info">
+                            <span class="dash-channel-name">Text (SMS)</span>
+                            <span class="dash-channel-desc">Automated recovery messages sent to shoppers who left items behind</span>
+                        </div>
+                        <div class="dash-channel-stats">
+                            <div class="dash-channel-stat">
+                                <span class="dash-channel-stat-value" id="ch-text-sent">0</span>
+                                <span class="dash-channel-stat-label">Sent</span>
+                            </div>
+                            <div class="dash-channel-stat">
+                                <span class="dash-channel-stat-value" id="ch-text-recovered">0</span>
+                                <span class="dash-channel-stat-label">Recovered</span>
+                            </div>
+                        </div>
+                        <span class="dash-channel-badge dash-channel-badge--text">SMS</span>
+                    </div>
+                    <div class="dash-channel-card">
+                        <div class="dash-channel-icon dash-channel-icon--live">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="dash-channel-info">
+                            <span class="dash-channel-name">Live (Voice AI)</span>
+                            <span class="dash-channel-desc">AI-powered calls that personally re-engage your customers in real time</span>
+                        </div>
+                        <div class="dash-channel-stats">
+                            <div class="dash-channel-stat">
+                                <span class="dash-channel-stat-value" id="ch-live-called">0</span>
+                                <span class="dash-channel-stat-label">Called</span>
+                            </div>
+                            <div class="dash-channel-stat">
+                                <span class="dash-channel-stat-value" id="ch-live-recovered">0</span>
+                                <span class="dash-channel-stat-label">Recovered</span>
+                            </div>
+                        </div>
+                        <span class="dash-channel-badge dash-channel-badge--live">VOICE</span>
+                    </div>
+                </div>
+            </div>
+
+            </div><!-- /page-overview -->
+
+            <!-- === PAGE: Checkouts === -->
+            <div class="dash-page" id="page-checkouts">
+            <div class="dash-section">
+                <div class="dash-section-header">
+                    <h2>Recent Checkouts</h2>
+                    <select id="status-filter" class="form-input form-input--sm">
+                        <option value="">All statuses</option>
+                        <option value="captured">Captured</option>
+                        <option value="recovery_attempted">Recovery Attempted</option>
+                        <option value="recovered">Recovered</option>
+                        <option value="converted">Converted</option>
+                    </select>
+                </div>
+                <div class="dash-table-wrap">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Cart Value</th>
+                                <th>Status</th>
+                                <th>Captured</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checkouts-tbody">
+                            <tr><td colspan="5" class="dash-table-loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            </div><!-- /page-checkouts -->
+
+            <!-- === PAGE: API Keys === -->
+            <div class="dash-page" id="page-api-keys">
+            <div class="dash-section">
+                <div class="dash-section-header">
+                    <h2>API Keys</h2>
+                    <button class="dash-btn" id="show-key-form-btn">+ New Key</button>
+                </div>
+
+                <!-- Key creation banner (shown once after creation) -->
+                <div id="key-banner" class="dash-key-banner" style="display:none;">
+                    <span>Your new API key (save it now — it won't be shown again):</span>
+                    <code id="key-banner-value"></code>
+                    <button class="dash-btn" onclick="copyKeyFromBanner()">Copy</button>
+                </div>
+
+                <!-- Inline create form -->
+                <form id="key-form" class="dash-key-form" style="display:none;">
+                    <input class="form-input" type="text" id="key-shop" required placeholder="Shop domain (e.g. mystore.myshopify.com)">
+                    <input type="hidden" id="key-mode" value="test">
+                    <div class="mode-toggle" id="mode-toggle">
+                        <button type="button" class="mode-toggle-btn active" data-mode="test">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.08 3.5L5.25 9.33 2.92 7"/></svg>
+                            Test
+                        </button>
+                        <button type="button" class="mode-toggle-btn" data-mode="live">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="3"/><path d="M3.05 3.05a7 7 0 000 7.9M10.95 3.05a7 7 0 010 7.9"/></svg>
+                            Live
+                        </button>
+                    </div>
+                    <button type="submit" class="dash-btn">Create</button>
+                </form>
+
+                <div class="dash-table-wrap">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Shop</th>
+                                <th>Mode</th>
+                                <th>Created</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="keys-tbody">
+                            <tr><td colspan="4" class="dash-table-loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div><!-- /page-api-keys -->
+
+        </div><!-- /dash-main -->
+    </section>
+
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-card">
+            <div class="modal-icon" id="modal-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                    <line x1="10" y1="11" x2="10" y2="17"/>
+                    <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+            </div>
+            <h3 class="modal-title" id="modal-title">Delete API Key?</h3>
+            <p class="modal-desc" id="modal-desc">This action cannot be undone. The key will stop working immediately.</p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn--cancel" id="modal-cancel">Cancel</button>
+                <button class="modal-btn modal-btn--danger" id="modal-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

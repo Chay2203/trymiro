@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miro</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <meta name="description" content="Hire your own AI support staff to get you more sales">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="navbar-line"></div>
+        <div class="navbar-content">
+            <a href="#" class="nav-logo">
+                <img class="nav-logo-img" src="assets/logo.png" alt="Miro logo">
+                <span class="nav-logo-text">miro</span>
+            </a>
+            <div class="nav-right">
+                <a href="docs.html" class="nav-link">Docs</a>
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="signup.html" class="nav-cta-btn">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO / HEADER ===== -->
+    <section class="header-section">
+        <!-- Background ellipse glows -->
+        <div class="header-ellipse header-ellipse-large"></div>
+        <div class="header-ellipse header-ellipse-small"></div>
+
+        <div class="header-content">
+            <div class="header-copy">
+                <h1 class="header-title">Drive <span class="highlight">more revenue</span> with a personalized <span class="highlight">AI sales rep</span></h1>
+                <p class="header-description">Instantly deploy a lifelike AI agent to call abandoned carts &amp; convert them into profitable paying customers.</p>
+            </div>
+
+            <form class="demo-form" id="demoForm">
+                <div class="demo-form-row">
+                    <input type="tel" id="demoPhone" class="demo-input" placeholder="+1 (555) 123-4567" required>
+                    <button type="submit" class="demo-btn" id="demoBtn">Try it live</button>
+                </div>
+                <p class="demo-helper">You'll get a call from our AI recovering your abandoned cart</p>
+                <div class="demo-scenario">
+                    <p class="demo-scenario-label">Demo scenario</p>
+                    <p class="demo-scenario-text">You left a <strong>$149.99</strong> cart at <strong>Miro Demo Store</strong> — Running Shoes ($89.99), Sport Socks ($14.99) &amp; Water Bottle ($45.01). Our AI will try to win you back.</p>
+                </div>
+                <p class="demo-status" id="demoStatus"></p>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- ===== STEPS ===== -->
+    <section class="steps-section">
+        <div class="steps-row">
+            <div class="step-card">
+                <div class="step-tick">
+                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+                        <path d="M1 8L4 11L9 5" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="step-title">Our team creates a custom Miro bot for your store</p>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step-card">
+                <div class="step-tick">
+                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+                        <path d="M1 8L4 11L9 5" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="step-title">It starts calling missed customers immediately</p>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step-card">
+                <div class="step-tick">
+                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+                        <path d="M1 8L4 11L9 5" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="step-title">Your sales increase automatically</p>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step-card">
+                <div class="step-tick">
+                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+                        <path d="M1 8L4 11L9 5" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="step-title">You unlock a new level of scale with your store</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats-section">
+        <div class="stats-line-top"></div>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-green-bar"></div>
+                <div class="stat-inner">
+                    <h3 class="stat-number">20%</h3>
+                    <p class="stat-desc">Our bot guarantees a 20% increase in cart recovery from the start.</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-green-bar"></div>
+                <div class="stat-inner">
+                    <h3 class="stat-number">+30</h3>
+                    <p class="stat-desc">Automated cart recovery messages lead to a +30 daily increase.</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-green-bar"></div>
+                <div class="stat-inner">
+                    <h3 class="stat-number">24/7</h3>
+                    <p class="stat-desc">Engage customers 24/7, increasing conversions by up to 40%.</p>
+                </div>
+            </div>
+        </div>
+        <div class="stats-line-bottom"></div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features-section">
+        <div class="features-container">
+            <!-- Feature cards row -->
+            <div class="features-row">
+                <div class="feature-card">
+                    <div class="feature-card-image">
+                        <img src="https://framerusercontent.com/images/bfigrtg2e6r2NbQf5N7VrKlnpGI.png" alt="Industry-leading cart recovery" loading="lazy">
+                    </div>
+                    <div class="feature-card-text">
+                        <h3 class="feature-card-title">Industry-leading cart recovery</h3>
+                        <p class="feature-card-desc">Miro reaches abandoned carts faster than any other solution — recovering up to 3x more lost sales with personalized outreach tailored to your store and customers.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-image">
+                        <img src="https://framerusercontent.com/images/iHQrxhJe7BCoyPbphCDRgttyJI.png" alt="Your personal 24/7 sales team" loading="lazy">
+                    </div>
+                    <div class="feature-card-text">
+                        <h3 class="feature-card-title">Your personal 24/7 sales team</h3>
+                        <p class="feature-card-desc">Your bot works around the clock to call abandoned carts and turn them in to paying customers with precision.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-image feature-card-image--dash">
+                        <div class="mini-dash">
+                            <div class="mini-dash-header">
+                                <span class="mini-dash-dot mini-dash-dot--green"></span>
+                                <span class="mini-dash-label">Cart Recovery</span>
+                            </div>
+                            <div class="mini-dash-stat">
+                                <span class="mini-dash-num">847</span>
+                                <span class="mini-dash-sub">carts recovered</span>
+                            </div>
+                            <div class="mini-dash-row">
+                                <div class="mini-dash-metric">
+                                    <span class="mini-dash-metric-val">$12,430</span>
+                                    <span class="mini-dash-metric-lbl">Revenue saved</span>
+                                </div>
+                                <div class="mini-dash-metric">
+                                    <span class="mini-dash-metric-val">38%</span>
+                                    <span class="mini-dash-metric-lbl">Recovery rate</span>
+                                </div>
+                            </div>
+                            <div class="mini-dash-bar-group">
+                                <div class="mini-dash-bar" style="height:40%"></div>
+                                <div class="mini-dash-bar" style="height:55%"></div>
+                                <div class="mini-dash-bar" style="height:70%"></div>
+                                <div class="mini-dash-bar" style="height:50%"></div>
+                                <div class="mini-dash-bar" style="height:85%"></div>
+                                <div class="mini-dash-bar" style="height:65%"></div>
+                                <div class="mini-dash-bar" style="height:90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-card-text">
+                        <h3 class="feature-card-title">Recover every lost cart</h3>
+                        <p class="feature-card-desc">Miro automatically detects abandoned carts and reaches out to customers with personalized calls to bring them back and close the sale.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SMS Feature - full width -->
+            <div class="sms-feature">
+                <div class="sms-feature-content">
+                    <div class="sms-tag">Feature</div>
+                    <h2 class="sms-feature-title">Automated SMS Recovery</h2>
+                    <p class="sms-feature-desc">After the call, Miro sends a personalized text to nudge your customer back to checkout. No generic blasts — just natural follow-ups that actually convert.</p>
+                </div>
+                <div class="sms-feature-image">
+                    <img src="https://framerusercontent.com/images/xtUjAVpdxZIGG3hm2VrK2bgXH8.png" alt="SMS Follow Ups" loading="lazy">
+                </div>
+            </div>
+
+            <!-- Profits row -->
+            <div class="profits-banner">
+                <h2 class="profits-banner-title">Instantly boost your profits, guaranteed.</h2>
+                <p class="profits-banner-desc">Increase your stores profitability immediately upon activation or your money back.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BENEFITS ===== -->
+    <section class="benefits-section">
+        <div class="benefits-glow"></div>
+        <div class="benefits-content">
+            <div class="benefits-top">
+                <span class="section-tag">Benefits</span>
+                <h2 class="benefits-title">Higher Recovery Rates</h2>
+                <p class="benefits-desc">Recover more abandoned carts than email or SMS alone. Guaranteed results or your money back.</p>
+            </div>
+
+            <!-- Integration -->
+            <div class="integrate-block">
+                <span class="section-tag">Integrate</span>
+                <h2 class="integrate-main-title">Shopify's #1 Cart Recovery Tool</h2>
+
+                <div class="integrate-grid">
+                    <div class="integrate-card">
+                        <div class="integrate-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="integrate-card-title">Effortless Setup</h3>
+                        <p class="integrate-card-desc">Connect to Shopify in under 2 minutes — no code, no dev team. Start recovering lost carts the same day.</p>
+                    </div>
+                    <div class="integrate-card">
+                        <div class="integrate-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="integrate-card-title">Customizable to Your Store</h3>
+                        <p class="integrate-card-desc">Tailor recovery calls and messages to match your brand voice, products, and customer tone.</p>
+                    </div>
+                    <div class="integrate-card">
+                        <div class="integrate-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <polyline points="1 20 1 14 7 14"/>
+                                <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                            </svg>
+                        </div>
+                        <h3 class="integrate-card-title">Real-Time Syncing</h3>
+                        <p class="integrate-card-desc">Cart data, product details, and inventory sync instantly — so recovery outreach is always accurate and up to date.</p>
+                    </div>
+                    <div class="integrate-card">
+                        <div class="integrate-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#01A377" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <h3 class="integrate-card-title">Advanced Analytics Dashboard</h3>
+                        <p class="integrate-card-desc">See exactly how many carts are recovered, revenue saved, and conversion rates — all in one dashboard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-block" id="demo">
+                <h2 class="cta-title">Request a Demo</h2>
+                <p class="cta-desc">See how Miro recovers abandoned carts and boosts your store's revenue by 20% from day one.</p>
+                <a href="signup.html" class="cta-button">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <a href="#" class="footer-logo">
+                    <img class="footer-logo-img" src="assets/logo.png" alt="Miro logo">
+                    <span>miro</span>
+                </a>
+            </div>
+            <p class="footer-copy">&copy;2026 TryMiro Inc.</p>
+            <div class="footer-right">
+                <a href="docs.html" class="footer-link">Docs</a>
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

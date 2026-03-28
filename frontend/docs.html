@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Docs - Miro</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <a href="index.html" class="docs-back-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+    </a>
+
+    <section class="docs-page">
+        <aside class="docs-sidebar">
+            <nav>
+                <a href="#getting-started" class="active">Getting Started</a>
+                <a href="#create-api-key">Create an API Key</a>
+                <a href="#checkout-snippet">Checkout Snippet</a>
+                <a href="#snippet-reference">Snippet Reference</a>
+                <a href="#shopify-webhook">Shopify Webhook</a>
+                <a href="#verify-integration">Verify Integration</a>
+                <a href="#checkout-statuses">Checkout Statuses</a>
+            </nav>
+        </aside>
+
+        <div class="docs-content">
+
+            <!-- Copy as Prompt -->
+            <section id="copy-prompt">
+                <h1>Integrate with one prompt</h1>
+                <p>Select your platform, copy the prompt, and give it to Claude. It will implement the entire Miro integration into your checkout page for you.</p>
+
+                <div class="prompt-builder">
+                    <div class="prompt-platform-grid">
+                        <button class="prompt-platform-btn active" data-platform="shopify">
+                            <span class="prompt-platform-name">Shopify</span>
+                            <span class="prompt-platform-desc">Liquid templates</span>
+                        </button>
+                        <button class="prompt-platform-btn" data-platform="nextjs">
+                            <span class="prompt-platform-name">Next.js</span>
+                            <span class="prompt-platform-desc">React / App Router</span>
+                        </button>
+                        <button class="prompt-platform-btn" data-platform="woocommerce">
+                            <span class="prompt-platform-name">WooCommerce</span>
+                            <span class="prompt-platform-desc">WordPress / PHP</span>
+                        </button>
+                        <button class="prompt-platform-btn" data-platform="html">
+                            <span class="prompt-platform-name">HTML / JS</span>
+                            <span class="prompt-platform-desc">Any static site</span>
+                        </button>
+                    </div>
+
+                    <button class="prompt-copy-btn" id="prompt-copy-btn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3a1.5 1.5 0 011.5-1.5H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        Copy Prompt
+                    </button>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
+            <section id="getting-started">
+                <h1>Integration Guide</h1>
+                <p>Miro recovers abandoned carts by detecting when a customer starts checkout but doesn't finish. To make this work, you need to send checkout data to Miro from your store's checkout page.</p>
+                <p>There are two ways to integrate:</p>
+                <ol>
+                    <li><strong>JavaScript snippet</strong> — paste a small script into your checkout page (works with any platform)</li>
+                    <li><strong>Shopify webhook</strong> — automatic capture via Shopify's built-in webhook system (zero code)</li>
+                </ol>
+                <p>Both methods require an API key, which you can create from your <a href="dashboard.html">Dashboard</a>.</p>
+            </section>
+
+            <!-- Create an API Key -->
+            <section id="create-api-key">
+                <h2>Step 1: Create an API Key</h2>
+                <ol>
+                    <li>Log in to your <a href="dashboard.html">Miro Dashboard</a></li>
+                    <li>Scroll to the <strong>API Keys</strong> section</li>
+                    <li>Click <strong>+ New Key</strong></li>
+                    <li>Enter your shop domain (e.g. <code>mystore.myshopify.com</code>) and choose <strong>Test</strong> or <strong>Live</strong> mode</li>
+                    <li>Copy the key immediately — it's only shown once</li>
+                </ol>
+                <p>Use <strong>Test</strong> mode while setting up. Test keys work identically but are clearly labeled in your dashboard so you can distinguish test data from real checkouts. Switch to <strong>Live</strong> when you're ready to go live.</p>
+            </section>
+
+            <!-- Checkout Snippet -->
+            <section id="checkout-snippet">
+                <h2>Step 2: Add the Checkout Snippet</h2>
+                <p>Paste the following script into your checkout page, just before the closing <code>&lt;/body&gt;</code> tag. It detects when a customer fills in their contact info and sends it to Miro so we can follow up if they don't complete the purchase.</p>
+
+                <div class="docs-code-block">
+                    <button class="docs-copy-btn">Copy</button>
+                    <pre><code>&lt;script&gt;
+(function() {
+  var MIRO_API_KEY = 'YOUR_API_KEY';   // Replace with your key
+  var MIRO_ENDPOINT = 'https://api.trymiro.com/capture';
+
+  // Unique token for this checkout session
+  var checkoutToken = sessionStorage.getItem('miro_ck')
+    || Math.random().toString(36).substr(2) + Date.now().toString(36);
+  sessionStorage.setItem('miro_ck', checkoutToken);
+
+  var sent = {};
+
+  function capture(data) {
+    // Don't re-send identical data
+    var key = JSON.stringify(data);
+    if (sent[key]) return;
+    sent[key] = true;
+
+    var payload = {
+      checkout_token: checkoutToken,
+      email: data.email || null,
+      phone: data.phone || null,
+      cart_value: data.cart_value || null,
+      cart_items: data.cart_items || null
+    };
+
+    fetch(MIRO_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + MIRO_API_KEY
+      },
+      body: JSON.stringify(payload)
+    }).catch(function() {});
+  }
+
+  // Auto-capture when email or phone fields lose focus
+  document.addEventListener('focusout', function(e) {
+    var el = e.target;
+    if (!el || !el.value) return;
+
+    var data = {};
+    if (el.type === 'email' || el.name === 'email') {
+      data.email = el.value;
+    } else if (el.type === 'tel' || el.name === 'phone') {
+      data.phone = el.value;
+    } else {
+      return;
+    }
+
+    capture(data);
+  });
+
+  // Expose globally so you can call it manually
+  window.miroCapture = capture;
+})();
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <p>That's it. As soon as a customer types their email or phone on your checkout page and moves to the next field, Miro receives the data. If they abandon, our AI agent follows up to recover the sale.</p>
+            </section>
+
+            <!-- Snippet Reference -->
+            <section id="snippet-reference">
+                <h2>Snippet Reference</h2>
+                <p>The snippet auto-captures email and phone from form fields. You can also call <code>window.miroCapture()</code> manually to send additional data like cart value and items.</p>
+
+                <h3>Manual Capture Example</h3>
+                <div class="docs-code-block">
+                    <button class="docs-copy-btn">Copy</button>
+                    <pre><code>// Call this wherever you have cart data available
+window.miroCapture({
+  email: 'customer@example.com',
+  phone: '+15551234567',
+  cart_value: 89.99,
+  cart_items: [
+    { name: 'Classic T-Shirt', qty: 2, price: 29.99 },
+    { name: 'Sneakers', qty: 1, price: 30.01 }
+  ]
+});</code></pre>
+                </div>
+
+                <h3>Capture Fields</h3>
+                <table class="docs-param-table">
+                    <thead>
+                        <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>email</code></td><td>string</td><td>No*</td><td>Customer email address</td></tr>
+                        <tr><td><code>phone</code></td><td>string</td><td>No*</td><td>Customer phone number (with country code)</td></tr>
+                        <tr><td><code>cart_value</code></td><td>number</td><td>No</td><td>Total cart value in dollars</td></tr>
+                        <tr><td><code>cart_items</code></td><td>array</td><td>No</td><td>Array of items — each with <code>name</code>, <code>qty</code>, <code>price</code></td></tr>
+                    </tbody>
+                </table>
+                <p>*At least one of <code>email</code> or <code>phone</code> is needed for Miro to reach the customer.</p>
+
+                <h3>How It Works</h3>
+                <ol>
+                    <li>Customer starts checkout and enters their email/phone</li>
+                    <li>The snippet sends the data to Miro as a "captured" checkout</li>
+                    <li>If the customer completes the purchase, the checkout is marked as <strong>converted</strong> (via webhook or your own call)</li>
+                    <li>If they abandon, Miro's AI agent calls or texts them to recover the sale</li>
+                </ol>
+            </section>
+
+            <!-- Shopify Webhook -->
+            <section id="shopify-webhook">
+                <h2>Alternative: Shopify Webhook (Zero Code)</h2>
+                <p>If you're on Shopify, you can skip the JavaScript snippet entirely. Shopify will automatically notify Miro when a checkout is created.</p>
+
+                <h3>Setup</h3>
+                <ol>
+                    <li>In your Shopify admin, go to <strong>Settings &rarr; Notifications &rarr; Webhooks</strong></li>
+                    <li>Click <strong>Create webhook</strong></li>
+                    <li>Event: <code>Checkout creation</code></li>
+                    <li>Format: <code>JSON</code></li>
+                    <li>URL: enter the webhook URL shown below</li>
+                </ol>
+
+                <div class="docs-code-block">
+                    <button class="docs-copy-btn">Copy</button>
+                    <pre><code>https://api.trymiro.com/webhook</code></pre>
+                </div>
+
+                <p>Shopify signs every webhook with an HMAC header. Miro verifies this automatically — no extra setup needed on your end.</p>
+                <p>Once active, every abandoned checkout on your store is captured automatically. You can see them in your <a href="dashboard.html">Dashboard</a> within seconds.</p>
+            </section>
+
+            <!-- Verify Integration -->
+            <section id="verify-integration">
+                <h2>Verify Your Integration</h2>
+                <p>After adding the snippet or webhook:</p>
+                <ol>
+                    <li>Open your store's checkout page in a new browser tab</li>
+                    <li>Enter a test email (e.g. <code>test@example.com</code>) and move to the next field</li>
+                    <li>Go to your <a href="dashboard.html">Miro Dashboard</a></li>
+                    <li>You should see a new checkout with status <strong>captured</strong></li>
+                </ol>
+                <p>If you're using a <strong>Test</strong> mode key, the checkout will appear with a "test" badge in your dashboard. No recovery calls will be made for test checkouts.</p>
+            </section>
+
+            <!-- Checkout Statuses -->
+            <section id="checkout-statuses">
+                <h2>Checkout Statuses</h2>
+                <p>Every checkout captured by Miro moves through these statuses. You can filter by status on your dashboard.</p>
+                <table class="docs-param-table">
+                    <thead>
+                        <tr><th>Status</th><th>What it means</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>captured</code></td><td>Checkout data received — customer hasn't completed the purchase yet</td></tr>
+                        <tr><td><code>recovery_attempted</code></td><td>Miro's AI agent has called or texted the customer</td></tr>
+                        <tr><td><code>recovered</code></td><td>Customer returned to their cart after being contacted</td></tr>
+                        <tr><td><code>converted</code></td><td>Customer completed the purchase</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </section>
+
+    <script src="js/docs.js"></script>
+</body>
+</html>
