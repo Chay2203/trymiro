@@ -11,6 +11,20 @@ function buildCartSummary(cartItems) {
     .join(", ");
 }
 
+function buildCartItemsDetail(cartItems) {
+  if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
+    return "[]";
+  }
+  return JSON.stringify(
+    cartItems.map((item) => ({
+      name: item.name,
+      qty: item.qty || 1,
+      price: Number(item.price) || 0,
+      line_total: ((item.qty || 1) * (Number(item.price) || 0)).toFixed(2),
+    }))
+  );
+}
+
 async function triggerCall(checkout) {
   const { VAPI_API_KEY, VAPI_ASSISTANT_ID, VAPI_PHONE_NUMBER_ID } = process.env;
 
@@ -40,7 +54,9 @@ async function triggerCall(checkout) {
           customer_name: checkout.customer_name || "there",
           cart_value: `$${cartValue.toFixed(2)}`,
           cart_items: cartSummary,
+          cart_items_detail: buildCartItemsDetail(items),
           customer_email: checkout.email || "",
+          customer_phone: checkout.phone || "",
           discount_percent: String(discountPercent),
           discounted_value: `$${discountedValue}`,
           store_name: checkout.shop || "our store",
