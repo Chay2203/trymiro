@@ -1182,6 +1182,12 @@ img { max-width: 100%; height: auto; display: block; }
     margin-bottom: var(--space-4);
 }
 
+.auth-error a {
+    color: #b91c1c;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
 .auth-footer {
     text-align: center;
     margin-top: var(--space-6);

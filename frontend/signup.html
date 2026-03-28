@@ -75,7 +75,11 @@
 
                 const data = await res.json();
                 if (!res.ok) {
-                    errEl.textContent = data.error || 'Signup failed';
+                    if (data.code === 'EMAIL_EXISTS') {
+                        errEl.innerHTML = 'An account with this email already exists. <a href="login.html">Log in instead</a>';
+                    } else {
+                        errEl.textContent = data.error || 'Signup failed';
+                    }
                     errEl.style.display = 'block';
                     btn.disabled = false;
                     btn.textContent = 'Create Account';

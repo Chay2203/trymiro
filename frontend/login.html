@@ -70,7 +70,13 @@
 
                 const data = await res.json();
                 if (!res.ok) {
-                    errEl.textContent = data.error || 'Invalid credentials';
+                    if (data.code === 'USER_NOT_FOUND') {
+                        errEl.innerHTML = 'No account found with this email. <a href="signup.html">Sign up instead</a>';
+                    } else if (data.code === 'INVALID_PASSWORD') {
+                        errEl.textContent = 'Incorrect password. Please try again.';
+                    } else {
+                        errEl.textContent = data.error || 'Invalid credentials';
+                    }
                     errEl.style.display = 'block';
                     btn.disabled = false;
                     btn.textContent = 'Log In';

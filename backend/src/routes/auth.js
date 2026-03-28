@@ -32,7 +32,7 @@ router.post("/auth/signup", async (req, res) => {
     res.status(201).json({ token, org: { id: org.id, name: org.name, slug: org.slug }, user: { id: user.id, email: user.email, role: user.role } });
   } catch (err) {
     if (err.code === "23505") {
-      return res.status(409).json({ error: "Email or organization slug already exists" });
+      return res.status(409).json({ error: "An account with this email already exists. Please log in.", code: "EMAIL_EXISTS" });
     }
     console.error("Signup error:", err);
     res.status(500).json({ error: "Internal server error" });
@@ -49,12 +49,12 @@ router.post("/auth/login", async (req, res) => {
   try {
     const user = await findUserByEmail(email);
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "No account found with this email. Please sign up.", code: "USER_NOT_FOUND" });
     }
 
     const valid = await bcrypt.compare(password, user.password_hash);
     if (!valid) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "Incorrect password. Please try again.", code: "INVALID_PASSWORD" });
     }
 
     const token = signToken(user);
