@@ -53,4 +53,12 @@ cron.schedule("*/15 * * * *", () => {
 
 app.listen(PORT, () => {
   console.log(`Recart backend listening on port ${PORT}`);
+
+  // Self-ping to prevent Render cold starts
+  const APP_URL = process.env.APP_URL;
+  if (APP_URL) {
+    setInterval(() => {
+      fetch(`${APP_URL}/health`).catch(() => {});
+    }, 5 * 60 * 1000); // every 5 minutes
+  }
 });
