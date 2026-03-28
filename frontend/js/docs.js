@@ -38,7 +38,7 @@ Miro is an AI cart recovery service. When a customer starts checkout but doesn't
 
 ## My API key
 My Miro API key is: YOUR_API_KEY
-API endpoint: https://api.trymiro.com/capture
+API endpoint: https://trymiro.onrender.com/capture
 
 ## What to implement
 
@@ -46,7 +46,7 @@ API endpoint: https://api.trymiro.com/capture
 In my Shopify theme, edit the checkout layout (or use a Script Tag via the Admin API). Add this script that fires when a customer enters their email or phone during checkout:
 
 - Listen for \`focusout\` on email and phone input fields on the checkout page
-- When a field loses focus and has a value, POST to \`https://api.trymiro.com/capture\` with:
+- When a field loses focus and has a value, POST to \`https://trymiro.onrender.com/capture\` with:
   - \`checkout_token\`: a unique session token (generate once per session, store in sessionStorage)
   - \`email\`: the customer's email (if available)
   - \`phone\`: the customer's phone (if available)
@@ -60,7 +60,7 @@ In my Shopify theme, edit the checkout layout (or use a Script Tag via the Admin
 Use Shopify Admin → Settings → Notifications → Webhooks:
 - Event: \`Checkout creation\`
 - Format: JSON
-- URL: \`https://api.trymiro.com/webhook\`
+- URL: \`https://trymiro.onrender.com/webhook\`
 This ensures every checkout is captured even if the JS snippet misses it.
 
 ### 3. Where to add the code
@@ -83,14 +83,14 @@ Miro is an AI cart recovery service. When a customer starts checkout but doesn't
 
 ## My API key
 My Miro API key is: YOUR_API_KEY
-API endpoint: https://api.trymiro.com/capture
+API endpoint: https://trymiro.onrender.com/capture
 
 ## What to implement
 
 ### 1. Create a Miro capture utility
 Create a utility file (e.g. \`lib/miro.ts\`) that:
 - Generates a unique checkout session token (store in sessionStorage, create if missing)
-- Exports a \`captureCheckout(data)\` function that POSTs to \`https://api.trymiro.com/capture\`
+- Exports a \`captureCheckout(data)\` function that POSTs to \`https://trymiro.onrender.com/capture\`
 - Payload: \`{ checkout_token, email, phone, cart_value, cart_items }\`
 - Headers: \`Authorization: Bearer YOUR_API_KEY\` and \`Content-Type: application/json\`
 - Deduplicates — tracks what's been sent this session so identical data isn't re-sent
@@ -111,7 +111,7 @@ In my checkout page component:
 ### 4. Optional: server-side capture route
 Create an API route \`app/api/miro-capture/route.ts\` that:
 - Accepts POST with the checkout data
-- Forwards it to \`https://api.trymiro.com/capture\` with the API key server-side (keeps the key out of client bundles)
+- Forwards it to \`https://trymiro.onrender.com/capture\` with the API key server-side (keeps the key out of client bundles)
 - Returns the response
 
 If using this approach, the client utility should POST to \`/api/miro-capture\` instead of directly to Miro.
@@ -131,7 +131,7 @@ Miro is an AI cart recovery service. When a customer starts checkout but doesn't
 
 ## My API key
 My Miro API key is: YOUR_API_KEY
-API endpoint: https://api.trymiro.com/capture
+API endpoint: https://trymiro.onrender.com/capture
 
 ## What to implement
 
@@ -145,7 +145,7 @@ Create a lightweight WordPress plugin or add code to my theme's \`functions.php\
 #### b. The JavaScript capture script should:
 - Generate a unique checkout session token (sessionStorage, create if missing)
 - Listen for \`focusout\` on \`#billing_email\` and \`#billing_phone\` fields
-- When a field loses focus and has a value, POST to \`https://api.trymiro.com/capture\` with:
+- When a field loses focus and has a value, POST to \`https://trymiro.onrender.com/capture\` with:
   - \`checkout_token\`: the session token
   - \`email\`: value of \`#billing_email\` (if available)
   - \`phone\`: value of \`#billing_phone\` (if available)
@@ -174,7 +174,7 @@ Miro is an AI cart recovery service. When a customer starts checkout but doesn't
 
 ## My API key
 My Miro API key is: YOUR_API_KEY
-API endpoint: https://api.trymiro.com/capture
+API endpoint: https://trymiro.onrender.com/capture
 
 ## What to implement
 
@@ -191,7 +191,7 @@ Add a script to my checkout page (just before \`</body>\`) that does the followi
 - When an \`input[type="tel"]\` or \`input[name="phone"]\` loses focus with a value, send a capture with the phone
 
 ### 3. The capture POST request
-POST to \`https://api.trymiro.com/capture\` with:
+POST to \`https://trymiro.onrender.com/capture\` with:
 \`\`\`json
 {
   "checkout_token": "<session token>",

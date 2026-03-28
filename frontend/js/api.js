@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://trymiro.onrender.com';
 
 async function apiFetch(path, options = {}) {
     const token = localStorage.getItem('miro_token');

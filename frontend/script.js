@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             demoStatus.className = 'demo-status';
 
             try {
-                const res = await fetch('http://localhost:3000/demo/call', {
+                const res = await fetch('https://trymiro.onrender.com/demo/call', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone }),
